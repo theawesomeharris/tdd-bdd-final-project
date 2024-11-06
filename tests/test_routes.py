@@ -211,7 +211,7 @@ class TestProductRoutes(TestCase):
         test_product = ProductFactory()
         response = self.client.post(BASE_URL, json=test_product.serialize())
         product = response.get_json()
-
+        
         # Attempt to update with invalid data
         response = self.client.put(f"{BASE_URL}/{product['id']}", json={"description": 12345})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
