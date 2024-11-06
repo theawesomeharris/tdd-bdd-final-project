@@ -201,6 +201,21 @@ class TestProductRoutes(TestCase):
         updated_product = response.get_json()
         self.assertEqual(updated_product["description"], "unknown")
 
+    def test_update_nonexistent_product(self):
+        """It should return 404 NOT FOUND for a non-existent Product"""
+        response = self.client.put(f"{BASE_URL}/9999", json={"description": "new desc"})
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_product_invalid_data(self):
+        """It should return 400 BAD REQUEST for invalid data format"""
+        test_product = ProductFactory()
+        response = self.client.post(BASE_URL, json=test_product.serialize())
+        product = response.get_json()
+
+        # Attempt to update with invalid data
+        response = self.client.put(f"{BASE_URL}/{product['id']}", json={"description": 12345})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_delete_product(self):
         """It should Delete a Product"""
         products = self._create_products(5)
