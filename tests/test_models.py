@@ -125,8 +125,8 @@ class TestProductModel(unittest.TestCase):
         self.assertIsNotNone(product.id)
         # Change it an save it
         product.description = "testing"  # change product description
-        original_id = product.id         # original_id is saved to ensure id remains consistent after updating
-        product.update()                 # save
+        original_id = product.id       # original_id is saved to ensure id remains consistent after updating
+        product.update()               # save
         self.assertEqual(product.id, original_id)
         self.assertEqual(product.description, "testing")
         # Fetch it back and make sure the id hasn't changed
